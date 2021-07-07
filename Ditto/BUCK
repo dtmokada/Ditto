@@ -1,0 +1,97 @@
+load('//Config:configs.bzl', 'app_binary_configs', 'library_configs', 'info_plist_substitutions', 'DEVELOPMENT_LANGUAGE')
+load('//Config:buck_rule_macros.bzl', 'apple_test_lib', 'apple_test_all')
+
+first_party_library_dependencies = [
+    '//Libraries/XKCD:XKCD',
+]
+
+apple_library(
+    name = 'DittoLibrary',
+    visibility = [
+        '//Ditto:',
+        '//Ditto/...',
+    ],
+    configs = library_configs(),
+    swift_version = '5',
+    srcs = glob([
+        'Sources/**/*.swift',
+    ]),
+    tests = [':DittoTests'],
+    deps = [
+        # Resources
+        '//Ditto/Resources:DittoAssets',
+        '//Ditto/Resources:StoryboardResources',
+    ]
+    + first_party_library_dependencies,
+)
+
+apple_binary(
+    name = 'DittoBinary',
+    visibility = [
+        '//Ditto:',
+        '//Ditto/...',
+    ],
+    configs = app_binary_configs('Ditto'),
+    swift_version = '5',
+    srcs = [
+       'BuckSupportFiles/Dummy.swift',
+    ],
+    #srcs = glob([
+    #    'Sources/**/*.swift',
+    #]),
+    # tests = [':AppTests'],
+    deps = [
+        ':DittoLibrary',
+    ] # + first_party_library_dependencies,
+)
+
+apple_test_lib(
+    name = 'DittoTests',
+    srcs = glob([
+        'Tests/**/*.swift',
+    ]),
+    deps = [
+        ':DittoLibrary',
+    ]
+)
+
+apple_test_all(
+    name = 'CITests',
+    libraries = first_party_library_dependencies,
+    additional_tests = [':DittoTests'],
+)
+
+apple_bundle(
+    name = 'Ditto',
+    visibility = [
+        '//Ditto:',
+    ],
+    extension = 'app',
+    binary = ':DittoBinary',
+    product_name = 'Ditto',
+    info_plist = 'Sources/Info.plist',
+    info_plist_substitutions = info_plist_substitutions('Ditto'),
+    deps = [
+        
+    ],
+)
+
+apple_package(
+    name = 'DittoPackage',
+    bundle = ':Ditto',
+)
+
+xcode_workspace_config(
+    name = 'workspace',
+    workspace_name = 'DittoApp',
+    src_target = ':Ditto',
+    extra_schemes = {
+      'XKCDDemoApp': ':xkcd_demo_app',
+    }
+)
+
+xcode_workspace_config(
+    name = 'xkcd_demo_app',
+    workspace_name = 'XKCDDemoApp',
+    src_target = '//Libraries/XKCD:DemoApp'
+)

@@ -1,0 +1,14 @@
+apple_resource(
+    name = 'StoryboardResources',
+    visibility = ['//Ditto:'],
+    variants = glob([
+        '*.lproj/*.storyboard',
+    ]),
+)
+
+apple_asset_catalog(
+    name = 'DittoAssets',
+    visibility = ['//Ditto:'],
+    app_icon = 'AppIcon',
+    dirs = ['Assets.xcassets'],
+)

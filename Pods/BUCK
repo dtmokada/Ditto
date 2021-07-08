@@ -1,0 +1,35 @@
+load('//Config:buck_rule_macros.bzl', 'apple_third_party_lib')
+
+apple_third_party_lib(
+    name = 'RouterService',
+    srcs = glob([
+        'RouterService/Sources/**/*.swift',
+    ]),
+    deps = [
+        ':RouterServiceInterface',
+    ]
+)
+
+apple_third_party_lib(
+    name = 'RouterServiceInterface',
+    srcs = glob([
+        'RouterServiceInterface/Sources/**/*.swift',
+    ]),
+)
+
+apple_third_party_lib(
+    name = 'Alamofire',
+    srcs = glob([
+        'Alamofire/Source/**/*.swift',
+    ]),
+)
+
+apple_third_party_lib(
+    name = 'Moya',
+    srcs = glob([
+        'Moya/Sources/**/*.swift',
+    ]),
+    deps = [
+        ':Alamofire',
+    ]
+)

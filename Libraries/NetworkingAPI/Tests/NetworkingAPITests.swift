@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Networking
+@testable import NetworkingAPI
 
 class NetworkingAPITests: XCTestCase {
 

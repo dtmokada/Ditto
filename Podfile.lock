@@ -1,30 +1,20 @@
 PODS:
-  - Alamofire (5.4.3)
-  - Moya (14.0.0):
-    - Moya/Core (= 14.0.0)
-  - Moya/Core (14.0.0):
-    - Alamofire (~> 5.0)
   - RouterService (1.1.0):
     - RouterServiceInterface (= 1.1.0)
   - RouterServiceInterface (1.1.0)
 
 DEPENDENCIES:
-  - Moya (~> 14.0)
   - RouterService (= 1.1.0)
 
 SPEC REPOS:
   trunk:
-    - Alamofire
-    - Moya
     - RouterService
     - RouterServiceInterface
 
 SPEC CHECKSUMS:
-  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
-  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   RouterService: 0a42c4e2ed3918afaaca7b3e9afe3e2f1475d1d7
   RouterServiceInterface: 0d3d11d5cfd00f9003df8003d38927767be1b799
 
-PODFILE CHECKSUM: a43ea9dc368625647abb31c219e285fca9d2a2e8
+PODFILE CHECKSUM: 93846e06176be33aed9b20d415fe6ee38f94a21c
 
 COCOAPODS: 1.10.1

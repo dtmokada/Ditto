@@ -16,20 +16,3 @@ apple_third_party_lib(
         'RouterServiceInterface/Sources/**/*.swift',
     ]),
 )
-
-apple_third_party_lib(
-    name = 'Alamofire',
-    srcs = glob([
-        'Alamofire/Source/**/*.swift',
-    ]),
-)
-
-apple_third_party_lib(
-    name = 'Moya',
-    srcs = glob([
-        'Moya/Sources/**/*.swift',
-    ]),
-    deps = [
-        ':Alamofire',
-    ]
-)

@@ -1,0 +1,57 @@
+load('//Config:configs.bzl', 'library_configs', 'info_plist_substitutions', 'app_binary_configs')
+load('//Config:buck_rule_macros.bzl', 'first_party_library')
+
+first_party_library(
+    name = 'XKCD',
+    visibility = [
+        '//Ditto:',
+        '//Ditto/...',
+    ],
+    swift_version = '5',
+    deps = [
+        '//Libraries/NetworkingAPI:NetworkingAPI',
+        '//Pods:RouterServiceInterface',
+    ],
+)
+
+apple_resource(
+    name = 'Mocks',
+    files = glob([
+        '**/*.json',
+    ]),
+)
+
+apple_binary(
+    name = 'DemoBinary',
+    visibility = [
+        '//Libraries/XKCD:',
+    ],
+    configs = app_binary_configs('Demo'),
+    swift_version = '5',
+    srcs = glob([
+       'Demo/**/*.swift',
+    ]),
+    tests = [':XKCDTests'],
+    deps = [
+        ':XKCD',
+        ':Mocks',
+        '//Pods:RouterService',
+        '//Libraries/Networking:Networking',
+    ],
+)
+
+apple_bundle(
+    name = 'DemoApp',
+    visibility = [
+        '//Libraries/XKCD:',
+        '//Ditto:',
+    ],
+    extension = 'app',
+    binary = ':DemoBinary',
+    product_name = 'XKCD',
+    info_plist = 'Demo/Info.plist',
+    info_plist_substitutions = info_plist_substitutions('Demo'),
+    deps = [
+        
+    ],
+)

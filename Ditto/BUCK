@@ -2,7 +2,14 @@ load('//Config:configs.bzl', 'app_binary_configs', 'library_configs', 'info_plis
 load('//Config:buck_rule_macros.bzl', 'apple_test_lib', 'apple_test_all')
 
 first_party_library_dependencies = [
+    '//Libraries/NetworkingAPI:NetworkingAPI',
+    '//Libraries/Networking:Networking',
     '//Libraries/XKCD:XKCD',
+]
+
+third_party_library_dependencies = [
+    '//Pods:RouterService',
+    '//Pods:RouterServiceInterface',
 ]
 
 apple_library(
@@ -22,7 +29,8 @@ apple_library(
         '//Ditto/Resources:DittoAssets',
         '//Ditto/Resources:StoryboardResources',
     ]
-    + first_party_library_dependencies,
+    + first_party_library_dependencies
+    + third_party_library_dependencies,
 )
 
 apple_binary(
@@ -42,7 +50,7 @@ apple_binary(
     # tests = [':AppTests'],
     deps = [
         ':DittoLibrary',
-    ] # + first_party_library_dependencies,
+    ],
 )
 
 apple_test_lib(

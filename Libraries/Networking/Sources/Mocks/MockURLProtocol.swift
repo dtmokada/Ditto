@@ -40,7 +40,7 @@ class MockURLProtocol: URLProtocol {
             }
         } else {
             let userInfo = [
-                NSLocalizedFailureReasonErrorKey: "Stub not found",
+                NSLocalizedFailureReasonErrorKey: "Stub for \(request.url?.absoluteString ?? "") was not found",
             ]
             let error = NSError(domain: "Networking", code: 500, userInfo: userInfo)
             backgroundQueue.asyncAfter(deadline: .now() + responseDelay) {

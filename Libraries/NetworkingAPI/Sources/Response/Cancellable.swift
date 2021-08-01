@@ -8,3 +8,7 @@
 public protocol Cancellable {
     func cancel()
 }
+
+public struct DummyCancellable: Cancellable {
+    func cancel() {}
+}

@@ -9,6 +9,7 @@ public protocol Cancellable {
     func cancel()
 }
 
-public struct DummyCancellable: Cancellable {
-    func cancel() {}
+public class DummyCancellable: Cancellable {
+    public init() {}
+    public func cancel() {}
 }

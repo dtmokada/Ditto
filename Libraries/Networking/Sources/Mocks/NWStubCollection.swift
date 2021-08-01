@@ -9,7 +9,7 @@ import Foundation
 
 public protocol NWStubCollection {
     static var bundle: Bundle { get }
-    static var stubs: [(urlRegex: String, jsonName: String)] { get }
+    static var stubs: [(urlRegex: String, file: String)] { get }
 }
 
 public extension NWStubCollection {

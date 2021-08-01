@@ -21,14 +21,14 @@ public class NWStubs {
     }
 
     public func register(stubCollection: NWStubCollection.Type) {
-        stubCollection.stubs.forEach { (urlRegex, jsonName) in
-            register(urlRegex: urlRegex, jsonName: jsonName, inBundle: stubCollection.bundle)
+        stubCollection.stubs.forEach { (urlRegex, file) in
+            register(urlRegex: urlRegex, file: file, inBundle: stubCollection.bundle)
         }
     }
 
     @discardableResult
-    public func register(urlRegex: String, jsonName: String, inBundle bundle: Bundle) -> Bool {
-        guard let path = bundle.path(forResource: jsonName, ofType: "json") else { return false }
+    public func register(urlRegex: String, file: String, inBundle bundle: Bundle) -> Bool {
+        guard let path = bundle.path(forResource: file, ofType: nil) else { return false }
         stubs[urlRegex] = URL(fileURLWithPath: path)
         return true
     }

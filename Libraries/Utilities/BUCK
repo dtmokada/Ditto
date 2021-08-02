@@ -9,4 +9,15 @@ first_party_library(
     swift_version = '5',
     deps = [
     ],
+    test_deps = [
+        ':Stubs',
+        '//Libraries/NetworkingMock:NetworkingMock',
+    ],
+)
+
+apple_resource(
+    name = 'Stubs',
+    files = glob([
+        '**/*.png',
+    ]),
 )

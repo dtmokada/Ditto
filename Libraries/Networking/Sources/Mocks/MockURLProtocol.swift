@@ -31,8 +31,8 @@ class MockURLProtocol: URLProtocol {
     override func startLoading() {
         let responseDelay = NWStubs.shared.responseDelay
         let backgroundQueue = DispatchQueue.global(qos: .background)
-        if let data = NWStubs.shared.dataFor(request: request), let url = request.url {
-            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        if let (data, statusCode) = NWStubs.shared.dataFor(request: request), let url = request.url {
+            let response = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil)
             client?.urlProtocol(self, didReceive: response!, cacheStoragePolicy: .notAllowed)
             client?.urlProtocol(self, didLoad: data)
             backgroundQueue.asyncAfter(deadline: .now() + responseDelay) {

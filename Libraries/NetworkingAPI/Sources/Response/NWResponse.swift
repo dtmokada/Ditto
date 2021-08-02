@@ -29,29 +29,35 @@ public class NWResponse {
 
 }
 
-public extension NWResponse {
+public extension Result where Success: NWResponse, Failure == NWError {
 
-    func filter<Range: RangeExpression>(statusCodes: Range) throws -> NWResponse where Range.Bound == Int {
-        guard statusCodes.contains(statusCode) else {
-            throw NWError.statusCode(self)
+    func filter<Range: RangeExpression>(statusCodes: Range) -> Self where Range.Bound == Int {
+        return flatMap { response in
+            guard statusCodes.contains(response.statusCode) else {
+                return .failure(NWError.statusCode(response))
+            }
+            return .success(response)
         }
-        return self
     }
 
-    func filter(statusCode: Int) throws -> NWResponse {
-        return try filter(statusCodes: statusCode...statusCode)
+    func filter(statusCode: Int) -> Self {
+        return filter(statusCodes: statusCode...statusCode)
     }
 
-    func filterSuccessfulStatusCodes() throws -> NWResponse {
-        return try filter(statusCodes: 200...299)
+    func filterSuccessfulStatusCodes() -> Self {
+        return filter(statusCodes: 200...299)
     }
 
-    func map<Dec: Decodable>(_ type: Dec.Type, using decoder: JSONDecoder = JSONDecoder()) throws -> Dec {
-        do {
-            return try decoder.decode(Dec.self, from: data)
-        } catch {
-            throw NWError.objectMapping(self, error)
+    func map<Dec: Decodable>(_ type: Dec.Type, using decoder: JSONDecoder = JSONDecoder()) -> Result<Dec, NWError> {
+        let mappedResult = flatMap { response -> Result<Dec, NWError> in
+            do {
+                let decodedResponse = try decoder.decode(Dec.self, from: response.data)
+                return .success(decodedResponse)
+            } catch {
+                return .failure(NWError.objectMapping(response, error))
+            }
         }
+        return mappedResult
     }
 
 }

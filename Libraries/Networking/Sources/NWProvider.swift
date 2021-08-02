@@ -60,16 +60,7 @@ public class NWProvider: NWProviderProtocol {
             return DummyCancellable()
         }
         return self.request(request: urlRequest) { result in
-            let mappedResult = result.flatMap { response -> Result<T, NWError> in
-                do {
-                    let decodedResponse = try response.map(T.self, using: decoder)
-                    return .success(decodedResponse)
-                } catch let error as NWError {
-                    return .failure(error)
-                } catch {
-                    return .failure(.underlying(response, error))
-                }
-            }
+            let mappedResult = result.map(T.self)
             self.callbackQueue.async {
                 completion(mappedResult)
             }

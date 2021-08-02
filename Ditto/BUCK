@@ -4,12 +4,17 @@ load('//Config:buck_rule_macros.bzl', 'apple_test_lib', 'apple_test_all')
 first_party_library_dependencies = [
     '//Libraries/NetworkingAPI:NetworkingAPI',
     '//Libraries/Networking:Networking',
+    '//Libraries/Utilities:Utilities',
     '//Libraries/XKCD:XKCD',
 ]
 
 third_party_library_dependencies = [
     '//Pods:RouterService',
     '//Pods:RouterServiceInterface',
+]
+
+test_library_dependencies = [
+    '//Libraries/NetworkingMock:NetworkingMock',
 ]
 
 apple_library(
@@ -30,6 +35,7 @@ apple_library(
         '//Ditto/Resources:StoryboardResources',
     ]
     + first_party_library_dependencies
+    + test_library_dependencies # TODO: Find a way to remove this whilst keeping module in test target graph
     + third_party_library_dependencies,
 )
 
@@ -65,7 +71,7 @@ apple_test_lib(
 
 apple_test_all(
     name = 'CITests',
-    libraries = first_party_library_dependencies,
+    libraries = first_party_library_dependencies + test_library_dependencies,
     additional_tests = [':DittoTests'],
 )
 
@@ -94,12 +100,6 @@ xcode_workspace_config(
     workspace_name = 'DittoApp',
     src_target = ':Ditto',
     extra_schemes = {
-      'XKCDDemoApp': ':xkcd_demo_app',
+      'XKCDDemoApp': '//Libraries/XKCD:DemoAppWorkspace',
     }
-)
-
-xcode_workspace_config(
-    name = 'xkcd_demo_app',
-    workspace_name = 'XKCDDemoApp',
-    src_target = '//Libraries/XKCD:DemoApp'
 )

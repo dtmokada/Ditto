@@ -13,10 +13,19 @@ class ViewController: UIViewController {
 
     let routerService: RouterServiceProtocol
 
-    let button: UIButton = {
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "XKCD Demo App"
+        label.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: nil)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private let button: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("next screen", for: .normal)
-        button.addTarget(self, action: #selector(routeToNextScreen), for: .touchUpInside)
+        button.setTitle("Start XKCD module", for: .normal)
+        button.addTarget(self, action: #selector(routeToXkcd), for: .touchUpInside)
         return button
     }()
 
@@ -31,19 +40,22 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
+        view.backgroundColor = .white
 
-        view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        view.addSubview(view: titleLabel, constraints: [
+            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64),
+        ])
+
+        view.addSubview(view: button, constraints: [
+            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64),
         ])
     }
 
-    @objc private func routeToNextScreen() {
-        
+    @objc private func routeToXkcd() {
     }
 }
 

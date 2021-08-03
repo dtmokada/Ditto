@@ -13,6 +13,11 @@ first_party_library(
         '//Libraries/Utilities:Utilities',
         '//Pods:RouterServiceInterface',
     ],
+    test_deps = [
+        ':Stubs',
+        '//Libraries/Networking:Networking',
+        '//Libraries/NetworkingMock:NetworkingMock',
+    ],
 )
 
 apple_resource(

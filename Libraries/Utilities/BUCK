@@ -8,6 +8,7 @@ first_party_library(
     ],
     swift_version = '5',
     deps = [
+        '//Pods:RouterServiceInterface',
     ],
     test_deps = [
         ':Stubs',

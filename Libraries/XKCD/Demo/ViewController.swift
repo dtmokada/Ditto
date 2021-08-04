@@ -56,6 +56,12 @@ class ViewController: UIViewController {
     }
 
     @objc private func routeToXkcd() {
+        routerService.navigate(
+            toRoute: XKCDInitialRoute(),
+            fromView: self,
+            presentationStyle: Push(),
+            animated: true
+        )
     }
 }
 

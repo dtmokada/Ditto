@@ -36,6 +36,8 @@ To take advantage of the modularization and achieve fast build times, we use [Bu
 
 The buck structure in this project is heavily based on [Airbnb's buck sample project](https://github.com/airbnb/BuckSample).
 
+TODO: Setup a CI pipeline that takes advantage of buck's caching.
+
 # Mini projects
 
 Like said before, this project contains many mini projects:

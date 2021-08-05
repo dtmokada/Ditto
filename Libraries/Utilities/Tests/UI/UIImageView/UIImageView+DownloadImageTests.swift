@@ -15,7 +15,7 @@ class UIImageViewDownloadImageTests: XCTestCase {
 
     override func setUpWithError() throws {
         sut = UIImageView()
-        UIImageView.urlSession = .mock
+        UIImageView.networkingSession = NWSessionMock()
     }
 
     func testSetImage() throws {

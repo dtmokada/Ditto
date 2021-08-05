@@ -11,11 +11,11 @@ public class NWStubs {
 
     public static var shared = NWStubs()
 
-    public var responseDelay: TimeInterval
+    public var responseDelay: TimeInterval?
 
     private(set) var stubs: [String: (URL, Int)]
 
-    init(responseDelay: TimeInterval = 0, stubs: [String: (URL, Int)] = [:]) {
+    init(responseDelay: TimeInterval? = nil, stubs: [String: (URL, Int)] = [:]) {
         self.responseDelay = responseDelay
         self.stubs = stubs
     }

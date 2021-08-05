@@ -6,16 +6,17 @@
 //
 
 import UIKit
+import NetworkingAPI
 
 public extension UIImageView {
 
-    static var urlSession = URLSession.shared
+    static var networkingSession: NWSession = URLSession.shared
 
     func setImage(url: URL, placeholder: UIImage? = nil, completion: (() -> Void)? = nil) {
         if placeholder != nil {
             image = placeholder
         }
-        let task = Self.urlSession.dataTask(with: url) { [weak self] data, _, _ in
+        _ = Self.networkingSession.dataTask(with: url) { [weak self] data, _, _ in
             if let data = data, let image = UIImage(data: data) {
                 DispatchQueue.main.async {
                     self?.image = image
@@ -23,7 +24,6 @@ public extension UIImageView {
                 }
             }
         }
-        task.resume()
     }
 
 }

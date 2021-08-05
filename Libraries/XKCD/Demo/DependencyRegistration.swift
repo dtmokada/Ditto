@@ -21,13 +21,13 @@ class DependencyRegistration: DependencyRegistrationProtocol {
 
     static func registerDependencyFactories(on routerService: RouterServiceRegistrationProtocol) {
         routerService.register(dependencyFactory: {
-            let provider = NWProvider(urlSession: .mock)
+            let provider = NWProvider(urlSession: NWSessionMock())
             return provider
         }, forType: NWProviderProtocol.self)
     }
 
     static func registerStubs() {
-        UIImageView.urlSession = .mock
+        UIImageView.networkingSession = NWSessionMock()
         NWStubs.shared.responseDelay = 1
         NWStubs.shared.register(stubCollection: ComicStubCollection.self)
     }

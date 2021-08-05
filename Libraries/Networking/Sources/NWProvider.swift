@@ -9,20 +9,16 @@ import UIKit
 import Foundation
 import NetworkingAPI
 
-extension URLSessionDataTask: Cancellable { }
-
 public class NWProvider: NWProviderProtocol {
 
-    public var callbackQueue: DispatchQueue
-    private let urlSession: URLSession
+    private let urlSession: NWSession
 
-    public init(urlSession: URLSession = .shared, callbackQueue: DispatchQueue = .main) {
+    public init(urlSession: NWSession = URLSession.shared) {
         self.urlSession = urlSession
-        self.callbackQueue = callbackQueue
     }
 
     func request(request: URLRequest, completion: @escaping NWResult<NWResponse>)  -> Cancellable {
-        let task = urlSession.dataTask(with: request) { (data, urlResponse, error) in
+        return urlSession.dataTask(with: request) { (data, urlResponse, error) in
             switch (urlResponse as? HTTPURLResponse, error) {
             case (.some(let httpResponse), .none):
                 let response = NWResponse(
@@ -47,23 +43,17 @@ public class NWProvider: NWProviderProtocol {
                 completion(.failure(.underlying(nil, error)))
             }
         }
-        task.resume()
-        return task
     }
 
     @discardableResult
     public func request<T: Decodable>(_ request: NWRequest, decoder: JSONDecoder, completion: @escaping NWResult<T>)  -> Cancellable {
         guard let urlRequest = request.asURLRequest else {
-            self.callbackQueue.async {
-                completion(.failure(.invalidUrl))
-            }
+            completion(.failure(.invalidUrl))
             return DummyCancellable()
         }
         return self.request(request: urlRequest) { result in
             let mappedResult = result.map(T.self)
-            self.callbackQueue.async {
-                completion(mappedResult)
-            }
+            completion(mappedResult)
         }
     }
 
@@ -77,9 +67,7 @@ public class NWProvider: NWProviderProtocol {
                 }
                 return .success(image)
             }
-            self.callbackQueue.async {
-                completion(mappedResult)
-            }
+            completion(mappedResult)
         }
     }
 

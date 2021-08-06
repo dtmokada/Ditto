@@ -19,29 +19,19 @@ public class NWProvider: NWProviderProtocol {
 
     func request(request: URLRequest, completion: @escaping NWResult<NWResponse>)  -> Cancellable {
         return urlSession.dataTask(with: request) { (data, urlResponse, error) in
-            switch (urlResponse as? HTTPURLResponse, error) {
-            case (.some(let httpResponse), .none):
-                let response = NWResponse(
-                    statusCode: httpResponse.statusCode,
-                    data: data ?? Data(),
-                    request: request,
-                    response: httpResponse
-                )
-                completion(.success(response))
-            case (.some(let httpResponse), .some(let error)):
-                let response = NWResponse(
-                    statusCode: httpResponse.statusCode,
-                    data: data ?? Data(),
-                    request: request,
-                    response: httpResponse
-                )
-                completion(.failure(.underlying(response, error)))
-            case (_, .some(let error)):
+            guard let httpResponse = urlResponse as? HTTPURLResponse else {
+                let error = error ?? NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
                 completion(.failure(.underlying(nil, error)))
-            default:
-                let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
-                completion(.failure(.underlying(nil, error)))
+                return
             }
+
+            let response = NWResponse(
+                statusCode: httpResponse.statusCode,
+                data: data ?? Data(),
+                request: request,
+                response: httpResponse
+            )
+            completion(.success(response))
         }
     }
 

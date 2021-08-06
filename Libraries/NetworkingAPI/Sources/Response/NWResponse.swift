@@ -21,12 +21,6 @@ public class NWResponse {
         self.response = response
     }
 
-    public static func == (lhs: NWResponse, rhs: NWResponse) -> Bool {
-        return lhs.statusCode == rhs.statusCode
-            && lhs.data == rhs.data
-            && lhs.response == rhs.response
-    }
-
 }
 
 public extension Result where Success: NWResponse, Failure == NWError {

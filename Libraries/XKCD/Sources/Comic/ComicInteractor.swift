@@ -32,10 +32,16 @@ class ComicInteractor: ComicBusinessLogic {
     private(set) var currentComicNumber: Int
     private(set) var currentRequest: Cancellable?
 
-    init(presenter: ComicPresentationLogic, service: ComicServiceProtocol) {
+    init(
+        presenter: ComicPresentationLogic,
+        service: ComicServiceProtocol,
+        currentComicNumber: Int = 0,
+        lastComicNumber: Int? = nil
+    ) {
         self.presenter = presenter
         self.service = service
-        self.currentComicNumber = 0
+        self.currentComicNumber = currentComicNumber
+        self.lastComicNumber = lastComicNumber
     }
 
     func fetchInitialComic() {

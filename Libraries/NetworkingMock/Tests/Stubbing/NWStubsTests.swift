@@ -19,7 +19,7 @@ class NWStubsTests: XCTestCase {
     func testRegisterStubCollection() throws {
         let stubCollectionType = DummyStubCollection.self
         let fileUrlPrefix = "file://"
-        let dummyFilename = "dummy.json"
+        let dummyFilename = "empty.json"
 
         sut.register(stubCollection: stubCollectionType)
 
@@ -49,7 +49,7 @@ class NWStubsTests: XCTestCase {
 
     func testRegister_validFile() throws {
         let regex = "some-regex"
-        let filename = "dummy.json"
+        let filename = "empty.json"
         let bundle = Bundle(for: Self.self)
         let statusCode = 500
 
@@ -105,7 +105,7 @@ class NWStubsTests: XCTestCase {
     func testDataForRequest() throws {
         let regex = "https://\\w+.com"
         let urlString = "https://apple.com"
-        let file = "dummy.json"
+        let file = "empty.json"
         let path = try XCTUnwrap(Bundle(for: Self.self).path(forResource: file, ofType: nil))
         let fileUrl = URL(fileURLWithPath: path)
         let requestUrl = try XCTUnwrap(URL(string: urlString))
@@ -123,7 +123,7 @@ class NWStubsTests: XCTestCase {
     func testDataForRequest_nonMatchingRegex() throws {
         let regex = "something that doesn't match"
         let urlString = "https://apple.com"
-        let file = "dummy.json"
+        let file = "empty.json"
         let path = try XCTUnwrap(Bundle(for: Self.self).path(forResource: file, ofType: nil))
         let fileUrl = URL(fileURLWithPath: path)
         let requestUrl = try XCTUnwrap(URL(string: urlString))
@@ -146,10 +146,10 @@ fileprivate class DummyStubCollection: NWStubCollection {
 
     static var stubs: [NWStub] {
         [
-            .init(urlRegex: "regex-200", file: "dummy.json", statusCode: 200),
-            .init(urlRegex: "regex-404", file: "dummy.json", statusCode: 404),
+            .init(urlRegex: "regex-200", file: "empty.json", statusCode: 200),
+            .init(urlRegex: "regex-404", file: "empty.json", statusCode: 404),
             .init(urlRegex: "regex-non-existent-file", file: "non-existent.json", statusCode: 404),
-            .init(urlRegex: "regex-501", file: "dummy.json", statusCode: 501),
+            .init(urlRegex: "regex-501", file: "empty.json", statusCode: 501),
         ]
     }
 

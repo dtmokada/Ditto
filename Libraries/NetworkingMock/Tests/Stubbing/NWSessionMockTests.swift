@@ -29,7 +29,7 @@ class NWSessionMockTests: XCTestCase {
         let statusCode = Int.random(in: 200...300)
         NWStubs.shared.register(
             urlRegex: urlString,
-            file: "dummy.json",
+            file: "empty.json",
             inBundle: Bundle(for: Self.self),
             statusCode: statusCode
         )
@@ -83,7 +83,7 @@ class NWSessionMockTests: XCTestCase {
         NWStubs.shared.responseDelay = 0.05
         NWStubs.shared.register(
             urlRegex: urlString,
-            file: "dummy.json",
+            file: "empty.json",
             inBundle: Bundle(for: Self.self),
             statusCode: statusCode
         )
@@ -147,7 +147,7 @@ class NWSessionMockTests: XCTestCase {
         NWStubs.shared.responseDelay = 0.01
         NWStubs.shared.register(
             urlRegex: urlString,
-            file: "dummy.json",
+            file: "empty.json",
             inBundle: Bundle(for: Self.self),
             statusCode: statusCode
         )
@@ -176,7 +176,7 @@ class NWSessionMockTests: XCTestCase {
         let statusCode = Int.random(in: 200...300)
         NWStubs.shared.register(
             urlRegex: urlString,
-            file: "dummy.json",
+            file: "empty.json",
             inBundle: Bundle(for: Self.self),
             statusCode: statusCode
         )

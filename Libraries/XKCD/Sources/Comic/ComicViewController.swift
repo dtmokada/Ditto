@@ -70,6 +70,14 @@ class ComicViewController: UIViewController {
         return indicatorView
     }()
 
+    private let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+
     private let previousButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Previous", for: .normal)
@@ -112,54 +120,32 @@ class ComicViewController: UIViewController {
         view.backgroundColor = .white
         navigationItem.titleView = navigationTitleTextField
 
-        view.addSubview(view: titleLabel, constraints: [
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-        ])
-
-        view.addSubview(view: scrollView, constraints: [
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-        ])
-        scrollView.addSubview(view: imageView, constraints: [
-            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
-            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20),
-            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
-
-            imageView.widthAnchor.constraint(greaterThanOrEqualTo: scrollView.widthAnchor, constant: -40),
-            imageView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: -40),
-        ])
-        view.addSubview(view: loadingView, constraints: [
-            loadingView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            loadingView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-        ])
-        loadingView.addSubview(view: activityIndicatorView, constraints: [
-            activityIndicatorView.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
-            activityIndicatorView.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor),
-        ])
-        view.addSubview(view: previousButton, constraints: [
-            previousButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            previousButton.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 20),
-            previousButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-        ])
-        view.addSubview(view: randomButton, constraints: [
-            randomButton.leadingAnchor.constraint(equalTo: previousButton.trailingAnchor, constant: 8),
-            randomButton.topAnchor.constraint(equalTo: previousButton.topAnchor),
-            randomButton.bottomAnchor.constraint(equalTo: previousButton.bottomAnchor),
-            randomButton.widthAnchor.constraint(equalTo: previousButton.widthAnchor),
-        ])
-        view.addSubview(view: nextButton, constraints: [
-            nextButton.leadingAnchor.constraint(equalTo: randomButton.trailingAnchor, constant: 8),
-            nextButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            nextButton.topAnchor.constraint(equalTo: previousButton.topAnchor),
-            nextButton.bottomAnchor.constraint(equalTo: previousButton.bottomAnchor),
-            nextButton.widthAnchor.constraint(equalTo: previousButton.widthAnchor),
-        ])
+        view.addSubview(titleLabel) { make in
+            make.top.equalToSuperviewSafeArea().offset(8)
+            make.leading.trailing.equalToSuperviewSafeArea().inset(20)
+        }
+        view.addSubview(scrollView) { make in
+            make.leading.trailing.equalToSuperviewSafeArea().inset(20)
+            make.top.equalTo(titleLabel.anchors.bottom).offset(20)
+        }
+        scrollView.addSubview(imageView) { make in
+            make.edges.equalToSuperview().inset(20)
+            make.size.greaterThanOrEqualToSuperview().inset(40)
+        }
+        view.addSubview(loadingView) { make in
+            make.edges.equalTo(scrollView)
+        }
+        loadingView.addSubview(activityIndicatorView) { make in
+            make.center.equalToSuperview()
+        }
+        view.addSubview(buttonStackView) { make in
+            make.leading.trailing.equalTo(scrollView)
+            make.top.equalTo(scrollView.anchors.bottom).offset(20)
+            make.bottom.equalToSuperviewSafeArea().inset(20)
+        }
+        buttonStackView.addArrangedSubview(previousButton)
+        buttonStackView.addArrangedSubview(randomButton)
+        buttonStackView.addArrangedSubview(nextButton)
     }
 
     private func fetchInitialComic() {
